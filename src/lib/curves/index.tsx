@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useRef, useState } from 'react'
 import spline from 'cubic-spline'
 import Draw from './draw'
+import Apply from './apply'
 import './index.scss'
 
 const round = (num: number, dec = 2) => parseFloat(num.toFixed(dec))
@@ -10,18 +11,20 @@ const defaultCurves = {
   g: { xs: [0, 1], ys: [0, 1] },
   b: { xs: [0, 1], ys: [0, 1] }
 }
-export default (
-  {
-    currentChannel
-  }: {
-    currentChannel: 'r' | 'g' | 'b' | 'a'
-  } = {
-    currentChannel: 'a'
-  }
-) => {
+export default ({
+  currentChannel: _currentChannel,
+  targetCanvas
+}: {
+  currentChannel: 'r' | 'g' | 'b' | 'a'
+  targetCanvas: HTMLCanvasElement
+}) => {
+  const currentChannel = _currentChannel || 'a'
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ctx = useRef<CanvasRenderingContext2D | null>(null)
   const [currentCurves, setCurrentCurves] = useState(defaultCurves)
+  const [originalImageData, setOriginalImageData] = useState<ImageData | null>(
+    null
+  )
   let x,
     y,
     dragging: boolean,
@@ -55,10 +58,28 @@ export default (
     canvas.width = 280
     canvas.height = 280
     ctx.current = canvas.getContext('2d')
-  }, [canvasRef.current])
+    if (!originalImageData)
+      setOriginalImageData(
+        (targetCanvas.getContext('2d') as any).getImageData(
+          0,
+          0,
+          targetCanvas.width,
+          targetCanvas.height
+        )
+      )
+  }, [canvasRef.current, targetCanvas])
   useEffect(() => {
     setCurrentCurves(defaultCurves)
   }, [currentChannel])
+  useEffect(() => {
+    if (!originalImageData) return
+    Apply(
+      originalImageData,
+      targetCanvas,
+      targetCanvas.getContext('2d') as any,
+      currentCurves
+    )
+  }, [currentCurves])
   useEffect(() => {
     if (!canvasRef.current || !ctx.current) return
     Draw(
