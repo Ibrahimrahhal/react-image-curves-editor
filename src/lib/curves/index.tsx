@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import spline from 'cubic-spline'
 import Draw from './draw'
 import Apply from './apply'
@@ -15,7 +15,7 @@ export default ({
   currentChannel: _currentChannel,
   targetCanvas
 }: {
-  currentChannel: 'r' | 'g' | 'b' | 'a'
+  currentChannel?: 'r' | 'g' | 'b' | 'a'
   targetCanvas: HTMLCanvasElement
 }) => {
   const currentChannel = _currentChannel || 'a'
@@ -42,7 +42,7 @@ export default ({
       let key = e.keyCode || e.which
       if (key == 16) shift = true
     }
-    const onKeyUp = (e: any) => {
+    const onKeyUp = () => {
       shift = false
     }
     document.addEventListener('keydown', onKeyDown)
@@ -52,21 +52,29 @@ export default ({
       document.removeEventListener('keyup', onKeyUp)
     }
   }, [])
+
+  useEffect(() => {
+    if (originalImageData) return;
+    const imageData = (targetCanvas.getContext('2d') as any).getImageData(
+      0,
+      0,
+      targetCanvas.width,
+      targetCanvas.height
+    );
+      setOriginalImageData(
+        new ImageData(
+          new Uint8ClampedArray(imageData.data),
+          imageData.width,
+          imageData.height
+        )
+      )
+  }, []);
   useEffect(() => {
     if (!canvasRef.current) return
     const canvas = canvasRef.current
     canvas.width = 280
     canvas.height = 280
     ctx.current = canvas.getContext('2d')
-    if (!originalImageData)
-      setOriginalImageData(
-        (targetCanvas.getContext('2d') as any).getImageData(
-          0,
-          0,
-          targetCanvas.width,
-          targetCanvas.height
-        )
-      )
   }, [canvasRef.current, targetCanvas])
   useEffect(() => {
     setCurrentCurves(defaultCurves)

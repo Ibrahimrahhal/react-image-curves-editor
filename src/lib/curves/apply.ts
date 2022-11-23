@@ -11,8 +11,7 @@ export default (
   if (!canvas || !ctx) return
   window.requestAnimationFrame(() => {
     let curvesData: any = { a: [], r: [], g: [], b: [] }
-    let imageData = new Uint8ClampedArray(originalImageData as any)
-
+    let imageData = new Uint8ClampedArray(originalImageData.data)
     for (let i = 0; i < 256; i++) {
       curvesData.a.push(
         (parseInt as any)(
