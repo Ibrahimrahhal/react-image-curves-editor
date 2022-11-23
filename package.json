@@ -1,10 +1,10 @@
 {
   "name": "react-image-curves-editor",
   "version": "1.0.0",
-  "description": "React component similar to photoshops curve tool",
-  "author": "ibrahimra7al",
+  "description": "React component similar to photoshop curve tool",
+  "author": "ibrahimrahhal",
   "license": "MIT",
-  "repository": "ibrahimra7al/react-image-curves-editor",
+  "repository": "ibrahimrahhal/react-image-curves-editor",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
@@ -21,7 +21,8 @@
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && npm install && npm run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\" \"./**/*.json\" \"./**/*.js\""
   },
   "peerDependencies": {
     "react": "^16.0.0"
@@ -59,5 +60,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "cubic-spline": "^3.0.3"
+  }
 }
