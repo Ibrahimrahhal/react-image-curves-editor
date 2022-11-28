@@ -1,6 +1,6 @@
 {
   "name": "react-image-curves-editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React component similar to photoshop curve tool",
   "author": "ibrahimrahhal",
   "license": "MIT",
@@ -61,6 +61,25 @@
   },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "react",
+    "curves",
+    "levels",
+    "photoshop",
+    "image",
+    "editor",
+    "tool",
+    "react-component",
+    "react-library",
+    "react-image-editor",
+    "react-image-tool",
+    "react-image-curves",
+    "react-image-levels",
+    "react-image-curves-editor",
+    "react-image-levels-editor",
+    "react-image-curves-tool",
+    "react-image-levels-tool"
   ],
   "dependencies": {
     "cubic-spline": "^1.0.4"
